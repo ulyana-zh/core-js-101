@@ -27,8 +27,11 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  if (num % 3 === 0 && num % 5 === 0) return 'FizzBuzz';
+  if (num % 3 === 0) return 'Fizz';
+  if (num % 5 === 0) return 'Buzz';
+  return num;
 }
 
 
@@ -43,8 +46,14 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  let res;
+  if (n !== 1) {
+    res = n * getFactorial(n - 1);
+  } else {
+    res = 1;
+  }
+  return res;
 }
 
 
@@ -61,6 +70,8 @@ function getFactorial(/* n */) {
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
 function getSumBetweenNumbers(/* n1, n2 */) {
+  // let arr = Array.from(`${n1}${n2}`);
+  // arr.reduce((acc, curV))
   throw new Error('Not implemented');
 }
 
@@ -208,8 +219,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 
@@ -225,8 +236,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return num.toString().split('').reverse().join('');
 }
 
 
@@ -250,8 +261,19 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const cardsReverse = Array.from(ccn.toString()).reverse();
+  const arrayNotChange = cardsReverse.filter((_, index) => index % 2 === 0);
+  const arrayToChange = cardsReverse.filter((_, index) => index % 2 !== 0).map((el) => el * 2);
+  function getDig(el) {
+    return Array.from(el.toString())
+      .map((x) => parseInt(x, 10))
+      .reduce((acc, val) => acc + val);
+  }
+  const res = arrayNotChange.concat(arrayToChange
+    .filter((el) => el < 10), arrayToChange
+    .filter((el) => el >= 10).map(getDig));
+  return (res.map((el) => +el).reduce((acc, val) => acc + val)) % 10 === 0;
 }
 
 /**
@@ -268,8 +290,10 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  let res = num.toString().split('').reduce((acc, curVal) => +(acc) + +(curVal));
+  if (res > 9) res = getDigitalRoot(res);
+  return res;
 }
 
 
@@ -337,6 +361,9 @@ function toNaryString(/* num, n */) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(/* pathes */) {
+  // let res = pathes.map((el) => el.split('/')).flatMap((x) => x);
+  // res = res.filter((el, index) => el[index] === el[index + 1] && el !== '');
+  // return '/'.concat(res.join('/'), '/');
   throw new Error('Not implemented');
 }
 
