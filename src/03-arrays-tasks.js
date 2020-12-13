@@ -202,11 +202,8 @@ function getTail(arr, n) {
  *    +'20,21,22,23,24\n'
  *    +'30,31,32,33,34'
  */
-function toCsvText(/* arr */) {
-  throw new Error('Not implemented');
-  // arr.map((el) => {
-  //   el.join().concat('\n');
-  // });
+function toCsvText(arr) {
+  return arr.join('\n');
 }
 
 /**
@@ -241,9 +238,9 @@ function toArrayOfSquares(arr) {
  */
 function getMovingSum(/* arr */) {
   throw new Error('Not implemented');
-  // const newArr = [];
-  // arr.reduce((acc, curVal) => newArr.unshift(acc + curVal));
-  // return newArr;
+  // const res = [];
+  // arr.reduce((acc, cur, index) => res[index] = acc + cur, 0);
+  // return res;
 }
 
 /**
@@ -428,10 +425,15 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  // return arr.sort((a, b) => a.country.localCompare(b.country));
-  // return arr.sort((a, b) => a.country.localCompare(b.country))
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  // return arr.sort((a, b) => a.country.localeCompare(b.country));
+  return arr.sort((a, b) => {
+    if (a.country < b.country) return -1;
+    if (a.country > b.country) return 1;
+    if (a.city < b.city) return -1;
+    if (a.city > b.city) return 1;
+    return 0;
+  });
 }
 
 /**
@@ -520,8 +522,13 @@ function distinct(arr) {
  *   }
  */
 function group(/* array, keySelector, valueSelector */) {
+  // return array.reduce((map, item) => {
+  //   const key = keySelector(item);
+  //   map[key].map[key] || [];
+  //   map[key].valueSelector(item);
+  //   return map;
+  // }, new Map());
   throw new Error('Not implemented');
-  // array.map(keySelector);
 }
 
 
@@ -555,8 +562,11 @@ function selectMany(arr, childrenSelector) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  if (indexes.length === 1) return arr[indexes[0]];
+  if (indexes.length === 2) return arr[indexes[0]][indexes[1]];
+  if (indexes.length === 3) return arr[indexes[0]][indexes[1]][indexes[2]];
+  return arr;
 }
 
 
