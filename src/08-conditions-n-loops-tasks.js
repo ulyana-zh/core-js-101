@@ -6,6 +6,8 @@
  *                                                                                                *
  ************************************************************************************************ */
 
+// const { retry } = require("./09-functions-n-closures-tasks");
+
 
 /**
  * Returns the 'Fizz','Buzz' or an original number using the following rules:
@@ -93,8 +95,9 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  if ((a + b) > c && (a + c) > b && (c + b) > a) return true;
+  return false;
 }
 
 
@@ -130,8 +133,16 @@ function isTriangle(/* a, b, c */) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  let res;
+  if (rect1.left >= rect2.left + rect2.width || rect2.left >= rect1.left + rect1.width) {
+    res = false;
+  } else if (rect1.top >= rect2.top + rect2.height || rect2.top >= rect1.top + rect1.height) {
+    res = false;
+  } else {
+    res = true;
+  }
+  return res;
 }
 
 
@@ -161,8 +172,13 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const { center, radius } = circle;
+  const { x, y } = point;
+  const a = (x - center.x) * (x - center.x) + (y - center.y) * (y - center.y);
+  const b = radius * radius;
+  if (a < b) return true;
+  return false;
 }
 
 
@@ -177,8 +193,14 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str.charAt(i);
+    if (str.indexOf(char) === i && str.indexOf(char, i + 1) === -1) {
+      return char;
+    }
+  }
+  return null;
 }
 
 
@@ -204,8 +226,26 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let res = '';
+  let bracketStart;
+  let bracketEnd;
+  if (isStartIncluded) {
+    bracketStart = '[';
+  } else {
+    bracketStart = '(';
+  }
+  if (isEndIncluded) {
+    bracketEnd = ']';
+  } else {
+    bracketEnd = ')';
+  }
+  if (a < b) {
+    res = bracketStart.concat(`${a}, ${b}`, bracketEnd);
+  } else {
+    res = bracketStart.concat(`${b}, ${a}`, bracketEnd);
+  }
+  return res;
 }
 
 
@@ -321,6 +361,16 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(/* str */) {
+  // const brackets = {
+  //   '(': ')',
+  //   '[': ']',
+  //   '{': '}',
+  // };
+  // const open = Object.keys(brackets);
+  // const close = Object.values(brackets);
+  // let counter = 0;
+
+  // return true;
   throw new Error('Not implemented');
 }
 
