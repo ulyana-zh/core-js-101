@@ -54,8 +54,7 @@ function getRegexForGuid() {
  *
  */
 function getRegexForPitSpot() {
-  // return /^.*p[a-z  ?]t(\w+)? {0 ,13}/;
-  throw new Error('Not implemented');
+  return /^[sr]|(pi)/;
 }
 
 

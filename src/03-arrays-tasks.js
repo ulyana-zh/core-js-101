@@ -146,10 +146,8 @@ function getStringsLength(arr) {
  *    [ 1, 3, 4, 5 ], 2, 1  => [ 1, 2, 3, 4, 5 ]
  *    [ 1, 'b', 'c'], 'x', 0  => [ 'x', 1, 'b', 'c' ]
  */
-function insertItem(/* arr, item, index */) {
-  throw new Error('Not implemented');
-  // const newArr = arr.splice(index);
-  // return arr.concat(item, newArr);
+function insertItem(arr, item, index) {
+  return arr.splice(index, 0, item);
 }
 
 /**
@@ -236,11 +234,13 @@ function toArrayOfSquares(arr) {
  *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
-function getMovingSum(/* arr */) {
-  throw new Error('Not implemented');
-  // const res = [];
-  // arr.reduce((acc, cur, index) => res[index] = acc + cur, 0);
-  // return res;
+function getMovingSum(arr) {
+  const res = [];
+  arr.reduce((acc, cur, index) => {
+    res[index] = acc + cur;
+    return res[index];
+  }, 0);
+  return res;
 }
 
 /**
@@ -454,8 +454,8 @@ function sortCitiesArray(arr) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return Array.from(Array(n), (x, i) => (Array.from(Array(n), (y, j) => (i === j ? 1 : 0))));
 }
 
 /**
@@ -521,14 +521,18 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  // return array.reduce((map, item) => {
-  //   const key = keySelector(item);
-  //   map[key].map[key] || [];
-  //   map[key].valueSelector(item);
-  //   return map;
-  // }, new Map());
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  return array.reduce((acc, cur) => {
+    const key = keySelector(cur);
+    const value = valueSelector(cur);
+
+    if (!acc.get(key)) {
+      acc.set(key, []);
+    }
+    acc.get(key).push(value);
+
+    return acc;
+  }, new Map());
 }
 
 
