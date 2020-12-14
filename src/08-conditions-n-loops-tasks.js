@@ -356,35 +356,36 @@ function getDigitalRoot(num) {
  *   '[[]' => false
  *   ']['  => false
  *   '[[][][[]]]' => true
- *   '[[][]][' => false
+ *     => false
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  // const openers = {
-  //   curly: '{',
-  //   square: '[',
-  //   paren: '(',
-  // };
+function isBracketsBalanced(str) {
+  const brackets = new Map([
+    ['(', ')'],
+    ['[', ']'],
+    ['{', '}'],
+    ['<', '>'],
+  ]);
 
-  // const closers = {
-  //   curly: '}',
-  //   square: ']',
-  //   paren: ')',
-  // };
-  // let counter = 0;
+  const stack = [];
+  for (let i = 0; i < str.length; i += 1) {
+    const cur = str[i];
 
-  // for (let i = 0; i < str.length; i += 1) {
-  //   if (str[i] === openers.curly || str[i] === openers.square || str[i] === openers.paren) {
-  //     counter += 1;
-  //   }
-  //   if (str[i] === closers.curly || str[i] === closers.square || str[i] === closers.paren) {
-  //     counter -= 1;
-  //   }
-  // }
-  // if (counter < 0 || counter % 2 !== 0 || counter !== 0) return false;
-  // return true;
-  throw new Error('Not implemented');
+    if (brackets.has(cur)) {
+      stack.push(cur);
+    } else {
+      const top = stack[stack.length - 1];
+
+      if (brackets.get(top) === cur) {
+        stack.pop();
+      } else {
+        return false;
+      }
+    }
+  }
+
+  return stack.length === 0;
 }
 
 
@@ -408,8 +409,16 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  const res = [];
+  let a = 0;
+  let i = num;
+  for (i; i > 0; i) {
+    a = i % n;
+    i = Math.floor(i / n);
+    res.push(a);
+  }
+  return res.reverse().join('');
 }
 
 
@@ -425,11 +434,17 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  // let res = pathes.map((el) => el.split('/')).flatMap((x) => x);
-  // res = res.filter((el, index) => el[index] === el[index + 1] && el !== '');
-  // return '/'.concat(res.join('/'), '/');
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  if (pathes.some((path) => path[0] !== '/')) return '';
+  const paths = pathes.map((path) => path.split('/')).sort((a, b) => a.length - b.length);
+  const array = [];
+  for (let i = 0; i < paths[0].length; i += 1) {
+    const path = paths[0][i];
+    if (paths.every((item) => item[i] === path)) {
+      array.push(path);
+    }
+  }
+  return `${array.join('/')}/`;
 }
 
 
@@ -451,8 +466,18 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const result = Array(m1.length);
+  for (let m1row = 0; m1row < m1.length; m1row += 1) {
+    result[m1row] = Array(m2[0].length);
+    for (let m2col = 0; m2col < m2[0].length; m2col += 1) {
+      result[m1row][m2col] = 0;
+      for (let m1col = 0; m1col < m1[0].length; m1col += 1) {
+        result[m1row][m2col] += m1[m1row][m1col] * m2[m1col][m2col];
+      }
+    }
+  }
+  return result;
 }
 
 
@@ -486,8 +511,23 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  let winner;
+  const [one, two, three] = position;
+  const [oneOne, oneTwo, oneThree] = one;
+  const [twoOne, twoTwo, twoThree] = two;
+  const [threeOne, threeTwo, threeThree] = three;
+
+  if (oneOne === oneTwo && oneTwo === oneThree) winner = oneOne;
+  if (twoOne === twoTwo && twoTwo === twoThree) winner = twoOne;
+  if (threeOne === threeTwo && threeTwo === threeThree) winner = threeOne;
+  if (oneOne === twoOne && twoOne === threeOne) winner = oneOne;
+  if (oneTwo === twoTwo && twoTwo === threeTwo) winner = oneTwo;
+  if (oneThree === twoThree && twoThree === threeThree) winner = oneThree;
+  if (oneOne === twoTwo && twoTwo === threeThree) winner = oneOne;
+  if (oneThree === twoTwo && twoTwo === threeOne) winner = oneThree;
+
+  return winner;
 }
 
 

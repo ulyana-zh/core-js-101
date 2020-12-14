@@ -62,8 +62,13 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...args) {
+  return function polynom(x) {
+    return args.reduce((acc, num, index) => {
+      const pow = args.length - 1 - index;
+      return acc + (num * (x ** pow));
+    }, 0);
+  };
 }
 
 
@@ -81,8 +86,14 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  let res;
+  return function memoized() {
+    if (res === undefined) {
+      res = func();
+    }
+    return res;
+  };
 }
 
 
@@ -101,8 +112,15 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  return function call() {
+    try {
+      func();
+    } catch (error) {
+      call(func, attempts);
+    }
+    return func();
+  };
 }
 
 
@@ -129,8 +147,15 @@ function retry(/* func, attempts */) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
+function logger(func, logFunc) {
+  return function log(...args) {
+    const array = args.map((arg) => JSON.stringify(arg));
+    const string = array.join();
+    logFunc(`${func.name}(${string}) starts`);
+    const res = func(...args);
+    logFunc(`${func.name}(${string}) ends`);
+    return res;
+  };
 }
 
 
@@ -147,8 +172,15 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  const argsLength = fn.length;
+  const argsArray = [...args1];
+
+  return (...n) => {
+    argsArray.push(...n);
+    if (argsArray.length >= argsLength) return fn(...argsArray);
+    return false;
+  };
 }
 
 
